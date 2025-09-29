@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dani Callero</title>
+            <style>
+            /* Critical FOUC gate: only hide with display:none until JS marks ready */
+            body:not(.js-ready) .info-panel.hidden { display: none !important; }
+            body:not(.js-ready) .info-button.hidden { display: none !important; }
+            </style>
+</head>
+
+<body>
+    <main class="container">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title" id="title"><span id="name" class="typed-text" aria-label="danicallero"></span><span id="cursor" class="cursor" aria-hidden="true"></span><span id="dotStatic" class="dot-static" style="opacity:0">.</span><span id="es" class="es-text" style="opacity:0">es</span></h1>
+            </div>
+        </div>
+
+        <div class="hero-section">
+            <button class="info-button hidden" id="info-btn" aria-label="Open info">
+                <span class="button-text">
+                    <span class="char-i">i</span>
+                    <span class="char-x">×</span>
+                </span>
+            </button>
+        </div>
+
+        <div class="info-panel hidden" id="info-panel">
+            <div class="info-content">
+                <p class="info-text">
+                    Dani Callero is a CS student.
+                    <br>
+                    Aspiring developer, chaotic thinker, lifelong learner, and tech enthusiast.
+                    <br>Expert at procrastination, occasional overthinker. 
+                    <br><br>
+                    Based in A Coruña, Spain.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

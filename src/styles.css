@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap');
+
+@font-face {
+  font-family: 'Baskerville Old Face';
+  src: url('../fonts/Baskerville.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  font-family: 'Baskerville Old Face', 'Times New Roman', serif;
+  font-weight: 400;
+  color: #000;
+  background-color: #fff;
+  /* Lock page scroll to prevent iOS rubber-banding moving the hero */
+  overflow: hidden; /* both axes */
+  overscroll-behavior: none;
+  /* Hide scrollbars cross-browser */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;    /* Firefox */
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Safari/Chrome (WebKit) */
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+
+.container { width: 100%; height: 100vh; position: relative; }
+
+.hero-section {
+  height: 100vh; height: 100dvh;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  background: #fff; transition: opacity .8s ease, transform .8s ease;
+  -webkit-align-items: center; -webkit-justify-content: center;
+  /* Disable native vertical panning on iOS to keep the hero fixed */
+  touch-action: none;
+}
+.hero-section.fade-out { opacity: .3; transform: scale(.95); }
+
+.hero-content { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+
+.hero-title { font-size: clamp(2.5rem, 4vw, 8rem); font-weight: 500; letter-spacing: -0.02em; color: #000; line-height: 1.1; font-family: 'Baskerville Old Face', 'Times New Roman', serif; display: inline-block; position: relative; }
+
+/* Typed name inline; we keep inline flow so selection works */
+.typed-text { display: inline; }
+
+/* Cursor as absolutely positioned element inside the title */
+.cursor {
+  position: absolute;
+  left: 0; top: 0;
+  width: 2px; height: 1em; background: currentColor;
+  display: inline-block; vertical-align: baseline;
+  animation: cursorBlink 1s infinite; transform-origin: center center;
+  pointer-events: none;
+  will-change: left, top, width, height, transform;
+}
+@keyframes cursorBlink { 0%, 50% { opacity: 1 } 51%, 100% { opacity: 0 } }
+.cursor.typing-done { animation: none; opacity: 1 }
+
+/* Static dot character that becomes part of selectable text */
+.dot-static { display: inline; }
+
+.es-text { display: inline; transform: translateX(-5px); }
+
+.info-button { position: fixed; top: 28px; right: 28px; width: 40px; height: 40px; background: #fff; border: 2px solid #000; color: #000; font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2000; transition: opacity .25s ease, transform .25s ease, background-color .25s ease, border-color .25s ease; transform: none !important; box-shadow: 0 1px 0 rgba(0,0,0,.08); }
+.info-button.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.info-button:hover { background: #000; color: #fff; transform: translateY(-1px) scale(1.02) !important; }
+/* Icon swap: i ↔ × with rotation/crossfade and perfect centering */
+.button-text { position: relative; display: inline-block; width: 1em; height: 1em; line-height: 1; transition: transform .35s ease, opacity .25s ease; will-change: transform, opacity; transform-origin: center center; }
+.info-button.open .button-text { transform: rotate(180deg); }
+.info-button .char-i,
+.info-button .char-x { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.info-button .char-i { opacity: 1; transition: opacity .2s ease; }
+.info-button .char-x { opacity: 0; transition: opacity .2s ease; }
+.info-button.open .char-i { opacity: 0; }
+.info-button.open .char-x { opacity: 1; }
+
+.info-panel { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #fff; z-index: 999; display: flex; align-items: center; justify-content: center; padding: 80px 40px; transform: translateY(0); opacity: 1; visibility: visible; transition: opacity .8s cubic-bezier(.25,.46,.45,.94), transform .8s cubic-bezier(.25,.46,.45,.94), visibility 0s linear 0s; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+/* Fade-out: delay visibility change until the opacity/transform finish */
+.info-panel.hidden { opacity: 0; transform: translateY(100px); pointer-events: none; visibility: hidden; transition: opacity .8s cubic-bezier(.25,.46,.45,.94), transform .8s cubic-bezier(.25,.46,.45,.94), visibility 0s linear .8s; }
+.info-content { max-width: 600px; text-align: left; }
+.info-text { font-size: clamp(1.2rem, 4vw, 2rem); line-height: 1.5; font-family: 'Baskerville Old Face', 'Times New Roman', serif; color: #000; font-weight: 400; }
+.close-button { position: fixed; top: 40px; right: 40px; width: 50px; height: 50px; background: none; border: 1px solid #000; color: #000; font-family: 'Baskerville Old Face', 'Times New Roman', serif; font-size: 24px; font-weight: 400; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2001; transition: all .3s ease; }
+.close-button:hover { background: #000; color: #fff; transform: scale(1.1); }
+
+@media (max-width: 768px) {
+  .hero-title { font-size: clamp(2rem, 6vw, 3.5rem); }
+  .info-button { top: 16px; right: 16px; width: 36px; height: 36px; font-size: 14px; border-radius: 50%; }
+  .close-button { top: 16px; right: 16px; width: 36px; height: 36px; font-size: 18px; }
+  .info-panel { padding: 60px 20px; }
+  .info-text { font-size: 1.2rem; }
+}
