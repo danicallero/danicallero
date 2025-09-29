@@ -3,19 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dani Callero</title>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+        <link rel="manifest" href="/site.webmanifest">
             <style>
             /* Critical FOUC gate: only hide with display:none until JS marks ready */
             body:not(.js-ready) .info-panel.hidden { display: none !important; }
             body:not(.js-ready) .info-button.hidden { display: none !important; }
+
+                        /* SEO */
+                        .visually-hidden {
+                            position: absolute !important;
+                            height: 1px; width: 1px;
+                            overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
+                            white-space: nowrap; border: 0; padding: 0; margin: -1px;
+                        }
             </style>
+    
+        <!-- JSON-LD is injected by src/seo.ts -->
 </head>
 
 <body>
     <main class="container">
         <div class="hero-section">
             <div class="hero-content">
-                <h1 class="hero-title" id="title"><span id="name" class="typed-text" aria-label="danicallero"></span><span id="cursor" class="cursor" aria-hidden="true"></span><span id="dotStatic" class="dot-static" style="opacity:0">.</span><span id="es" class="es-text" style="opacity:0">es</span></h1>
+                <h1 class="hero-title" id="title"><span id="name" class="typed-text" aria-label="danicallero">danicallero</span><span id="cursor" class="cursor" aria-hidden="true"></span><span id="dotStatic" class="dot-static" style="opacity:0">.</span><span id="es" class="es-text" style="opacity:0">es</span></h1>
+                <span class="visually-hidden">Daniel Callero (also known as Dani Callero, danicallero, danielcallero)</span>
             </div>
         </div>
 
@@ -31,16 +43,28 @@
         <div class="info-panel hidden" id="info-panel">
             <div class="info-content">
                 <p class="info-text">
-                    Dani Callero is a CS student.
+                    Daniel Callero is a CS student.
                     <br>
                     Aspiring developer, chaotic thinker, lifelong learner, and tech enthusiast.
                     <br>Expert at procrastination, occasional overthinker. 
                     <br><br>
                     Based in A Coruña, Spain.
+                    <br><br>
+                    Socials: 
+                    <a href="https://links.danicallero.es" target="_blank" rel="noopener noreferrer" aria-label="Social links for Daniel Callero">
+                        links.danicallero.es
+                    </a>
                 </p>
             </div>
         </div>
     </main>
+
+    <noscript>
+      <div style="padding:1rem; max-width: 56rem; margin: 0 auto;">
+        <h1 style="font-family: serif; font-weight: 600;">danicallero.es</h1>
+        <p>Personal site of Daniel (Dani) Callero — CS student and aspiring developer from A Coruña, Spain.</p>
+      </div>
+    </noscript>
 
     <script type="module" src="/src/main.ts"></script>
 </body>

@@ -1,6 +1,9 @@
 import './styles.css';
 // Mark JS-ready early to allow CSS transitions instead of display:none gates
 document.body.classList.add('js-ready');
+// Initialize SEO head tags and structured data
+import { initSEO } from './seo.ts';
+initSEO({ canonical: 'https://www.danicallero.es/' });
 import { typeText } from './modules/typing.ts';
 import { animateRetractionToDot, arcToCharTop, playfulCourage, jumpToStaticDotAndReveal } from './modules/motion.ts';
 import { setupInfoUI } from './modules/ui.ts';

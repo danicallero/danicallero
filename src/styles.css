@@ -84,6 +84,11 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
 .info-panel.hidden { opacity: 0; transform: translateY(100px); pointer-events: none; visibility: hidden; transition: opacity .8s cubic-bezier(.25,.46,.45,.94), transform .8s cubic-bezier(.25,.46,.45,.94), visibility 0s linear .8s; }
 .info-content { max-width: 600px; text-align: left; }
 .info-text { font-size: clamp(1.2rem, 4vw, 2rem); line-height: 1.5; font-family: 'Baskerville Old Face', 'Times New Roman', serif; color: #000; font-weight: 400; }
+
+/* Hyperlinks style: cursive/italic, inherit color, and underline for clarity */
+a { color: inherit; text-decoration: underline; font-style: italic; }
+/* Subtle hover affordance without changing brand color */
+a:hover { text-decoration-thickness: 2px; }
 .close-button { position: fixed; top: 40px; right: 40px; width: 50px; height: 50px; background: none; border: 1px solid #000; color: #000; font-family: 'Baskerville Old Face', 'Times New Roman', serif; font-size: 24px; font-weight: 400; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2001; transition: all .3s ease; }
 .close-button:hover { background: #000; color: #fff; transform: scale(1.1); }
 

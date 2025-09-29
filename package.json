@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/danicallero/danicallero.git"
   },
-  "homepage": "https://danicallero.github.io/",
+  "homepage": "https://www.danicallero.es/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
