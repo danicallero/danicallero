@@ -6,7 +6,7 @@ import { initSEO } from './seo.ts';
 initSEO({
   canonical: 'https://www.danicallero.es/',
   twitterCard: 'summary_large_image',
-  imageUrl: 'https://www.danicallero.es/og-image.png',
+  imageUrl: 'https://www.danicallero.es/og-image.png?v=1',
   imageAlt: 'Daniel Callero — danicallero',
 });
 import { typeText } from './modules/typing.ts';
