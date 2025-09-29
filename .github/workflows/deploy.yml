@@ -27,8 +27,11 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Install
-        run: npm ci
+      - name: Install dependencies
+        # Using `npm install` instead of `npm ci` to avoid an npm bug with
+        # platform-specific optional dependencies (Rollup native binaries)
+        # on Linux runners when the lockfile was generated on another OS.
+        run: npm install
 
       - name: Build
         env:
