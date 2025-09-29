@@ -57,6 +57,11 @@ export interface SeoOptions {
   themeColor?: string;
   twitterCard?: 'summary' | 'summary_large_image';
   sameAs?: string[];
+  imageUrl?: string;
+  imageAlt?: string;
+  imageType?: string;
+  imageWidth?: string | number;
+  imageHeight?: string | number;
 }
 
 export function initSEO(opts?: Partial<SeoOptions>) {
@@ -66,9 +71,15 @@ export function initSEO(opts?: Partial<SeoOptions>) {
   const description = opts?.description ?? 'Personal site of Daniel (Dani) Callero — CS student and aspiring developer from A Coruña, Spain. Also known as danicallero / danielcallero.';
   const author = opts?.author ?? 'Daniel Callero';
   const themeColor = opts?.themeColor ?? '#000000';
-  const twitterCard = opts?.twitterCard ?? 'summary';
+
+  const imageUrl = opts?.imageUrl ?? 'https://www.danicallero.es/og%20image.png';
+  const twitterCard = opts?.twitterCard ?? (imageUrl ? 'summary_large_image' : 'summary');
   const sameAs = opts?.sameAs ?? ['https://github.com/danicallero', 'https://links.danicallero.es'];
   const alternateNames = opts?.alternateNames ?? ['Dani Callero', 'danicallero', 'danielcallero'];
+  const imageAlt = opts?.imageAlt ?? `${personName} — ${siteName}`;
+  const imageType = opts?.imageType ?? 'image/png';
+  const imageWidth = opts?.imageWidth;
+  const imageHeight = opts?.imageHeight;
 
   // Title
   const title = `${personName} — ${siteName}`;
@@ -93,11 +104,22 @@ export function initSEO(opts?: Partial<SeoOptions>) {
   upsertMetaByProp('og:description', description);
   upsertMetaByProp('og:url', canonical);
   upsertMetaByProp('og:site_name', siteName);
+  if (imageUrl) {
+    upsertMetaByProp('og:image', imageUrl);
+    upsertMetaByProp('og:image:alt', imageAlt);
+    upsertMetaByProp('og:image:type', imageType);
+    if (imageWidth) upsertMetaByProp('og:image:width', String(imageWidth));
+    if (imageHeight) upsertMetaByProp('og:image:height', String(imageHeight));
+  }
 
   // Twitter
   upsertMetaByName('twitter:card', twitterCard);
   upsertMetaByName('twitter:title', title);
   upsertMetaByName('twitter:description', description);
+  if (imageUrl) {
+    upsertMetaByName('twitter:image', imageUrl);
+    upsertMetaByName('twitter:image:alt', imageAlt);
+  }
 
   // JSON-LD: Website
   upsertScriptJsonLd('website', {

@@ -3,7 +3,12 @@ import './styles.css';
 document.body.classList.add('js-ready');
 // Initialize SEO head tags and structured data
 import { initSEO } from './seo.ts';
-initSEO({ canonical: 'https://www.danicallero.es/' });
+initSEO({
+  canonical: 'https://www.danicallero.es/',
+  twitterCard: 'summary_large_image',
+  imageUrl: 'https://www.danicallero.es/og%20image.png',
+  imageAlt: 'Daniel Callero — danicallero',
+});
 import { typeText } from './modules/typing.ts';
 import { animateRetractionToDot, arcToCharTop, playfulCourage, jumpToStaticDotAndReveal } from './modules/motion.ts';
 import { setupInfoUI } from './modules/ui.ts';
