@@ -72,7 +72,7 @@ export function initSEO(opts?: Partial<SeoOptions>) {
   const author = opts?.author ?? 'Daniel Callero';
   const themeColor = opts?.themeColor ?? '#000000';
 
-  const imageUrl = opts?.imageUrl ?? 'https://www.danicallero.es/og%20image.png';
+  const imageUrl = opts?.imageUrl ?? 'https://www.danicallero.es/og-image.png';
   const twitterCard = opts?.twitterCard ?? (imageUrl ? 'summary_large_image' : 'summary');
   const sameAs = opts?.sameAs ?? ['https://github.com/danicallero', 'https://links.danicallero.es'];
   const alternateNames = opts?.alternateNames ?? ['Dani Callero', 'danicallero', 'danielcallero'];
