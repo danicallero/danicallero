@@ -21,21 +21,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
       - name: Install dependencies
-        # Using `npm install` instead of `npm ci` to avoid an npm bug with
-        # platform-specific optional dependencies (Rollup native binaries)
-        # on Linux runners when the lockfile was generated on another OS.
-        run: npm install
+        run: rm -f package-lock.json && npm install
 
       - name: Build
         env:
-          # User site deploys at root
           BASE_PATH: /
         run: npm run build
 
