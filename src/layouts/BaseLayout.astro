@@ -56,13 +56,29 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 
     <slot name="head" />
 
+    <meta name="author" content="Daniel Callero" />
+
     <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Person',
       name: 'Daniel Callero',
-      alternateName: ['Dani Callero', 'danicallero'],
+      alternateName: [
+        'Dani Callero',
+        'Daniel Callero',
+        'danicallero',
+        'danicostales',
+        'danielcallero',
+        'danielcostales',
+        'Daniel Costales',
+        'Daniel Callero Costales',
+      ],
       url: 'https://www.danicallero.es',
-      sameAs: ['https://github.com/danicallero'],
+      sameAs: [
+        'https://github.com/danicallero',
+        'https://links.danicallero.es',
+        'https://www.linkedin.com/in/daniel-callero-costales-807252270/',
+        'https://www.instagram.com/danicallero',
+      ],
     })} />
 
     <!--
@@ -81,8 +97,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <ViewTransitions />
   </head>
 
-  <body>
-    <slot />
+  <body class="site-body">
+    <div class="page-shell">
+      <slot />
+    </div>
 
     <!--
       1. astro:before-swap — copy the current theme class to the incoming
@@ -109,24 +127,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
         const io = new IntersectionObserver(
           (entries) => entries.forEach(entry => {
             if (entry.isIntersecting) {
-              const el = entry.target as HTMLElement;
-              el.style.opacity    = '1';
-              el.style.transform  = 'none';
-              el.classList.add('_observed');
-              io.unobserve(el);
+              (entry.target as HTMLElement).classList.add('_observed');
+              io.unobserve(entry.target);
             }
           }),
           { threshold: 0.05, rootMargin: '0px 0px -24px 0px' }
         );
 
-        els.forEach(el => {
-          el.classList.add('_observed');
-          // Set invisible via JS — stays visible in CSS if JS never runs
-          el.style.opacity    = '0';
-          el.style.transform  = 'translateY(14px)';
-          el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-          io.observe(el);
-        });
+        els.forEach(el => io.observe(el));
       }
 
       initReveal();

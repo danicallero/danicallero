@@ -7,7 +7,28 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const byYear = posts.reduce<Record<number, typeof posts>>((acc, post) => {
+function extractPostImages(body: string) {
+  const matches = [...body.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)];
+  return matches
+    .map((match) => match[1].trim().replace(/^<|>$/g, ''))
+    .map((src) => src.replace(/\s+"[^"]*"$/, ''))
+    .filter(Boolean)
+    .map((src) => {
+      try {
+        // Avoid double-encoding paths that are already percent-encoded.
+        return encodeURI(decodeURI(src));
+      } catch {
+        return src;
+      }
+    });
+}
+
+const postsWithImages = posts.map((post) => ({
+  ...post,
+  previewImages: extractPostImages(post.body),
+}));
+
+const byYear = postsWithImages.reduce<Record<number, typeof postsWithImages>>((acc, post) => {
   const yr = post.data.date.getFullYear();
   (acc[yr] ??= []).push(post);
   return acc;
@@ -16,7 +37,7 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
 ---
 
 <BaseLayout
-  title="Blog — danicallero"
+  title="Blog · Daniel Callero"
   description="Writing by Daniel Callero."
 >
   <Header />
@@ -41,10 +62,22 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
               <div class="post-list">
                 {byYear[year].map((post) => (
                   <a href={`/blog/${post.slug}`} class="post-item">
-                    <span class="post-title">{post.data.title}</span>
-                    <span class="post-date">
-                      {post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    <span class="post-item-main">
+                      <span class="post-title">{post.data.title}</span>
+                      <span class="post-date">
+                        {post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                      </span>
                     </span>
+                    {post.previewImages.length > 0 && (
+                      <span
+                        class="post-preview"
+                        data-post-preview
+                        data-images={JSON.stringify(post.previewImages)}
+                        aria-hidden="true"
+                      >
+                        <img src={post.previewImages[0]} alt="" loading="lazy" decoding="async" />
+                      </span>
+                    )}
                   </a>
                 ))}
               </div>
@@ -57,4 +90,34 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
   </main>
 
   <Footer />
+
+  <script is:inline>
+    (() => {
+      const windows = Array.from(document.querySelectorAll('[data-post-preview]'));
+      if (!windows.length) return;
+
+      const applyOrientation = (windowEl, imgEl) => {
+        if (!imgEl.naturalWidth || !imgEl.naturalHeight) return;
+        const isLandscape = imgEl.naturalWidth > imgEl.naturalHeight;
+        windowEl.classList.toggle('is-landscape', isLandscape);
+      };
+
+      windows.forEach((windowEl) => {
+        const images = JSON.parse(windowEl.getAttribute('data-images') || '[]');
+        const img = windowEl.querySelector('img');
+        if (!img) return;
+
+        img.addEventListener('load', () => applyOrientation(windowEl, img));
+        if (img.complete) applyOrientation(windowEl, img);
+
+        if (images.length < 2) return;
+
+        let index = 0;
+        window.setInterval(() => {
+          index = (index + 1) % images.length;
+          img.src = images[index];
+        }, 3200);
+      });
+    })();
+  </script>
 </BaseLayout>

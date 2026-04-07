@@ -5,8 +5,8 @@ import Footer from '../components/Footer.astro';
 ---
 
 <BaseLayout
-  title="About — danicallero"
-  description="About Daniel Callero"
+  title="About · Daniel Callero"
+  description="About Daniel Callero (danicallero) — CS student at UDC, developer, and open-source contributor from A Coruña, Spain."
 >
   <Header />
 
@@ -14,29 +14,48 @@ import Footer from '../components/Footer.astro';
     <div class="container">
 
       <!-- Page header -->
-      <header style="padding-block:4rem 4rem; border-bottom:1px solid var(--line);">
+      <header class="about-header">
         <p class="label">About</p>
-        <h1 class="page-title">Daniel Callero</h1>
-        <p style="margin-top:0.625rem; font-size:0.875rem; color:var(--text-2);">
-          CS student · A Coruña, Spain
-        </p>
+        <div class="about-header-row">
+          <div class="about-title-stack">
+            <h1 class="page-title">Daniel Callero</h1>
+            <p class="about-subtitle">
+              CS student · A Coruña, Spain
+            </p>
+          </div>
+          <div class="about-avatar-inline" aria-label="Avatar frame">
+            <div class="avatar-frame avatar-frame--header">
+              <img
+                src="/AVATAR.jpg"
+                alt="Portrait of Daniel Callero"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </div>
       </header>
 
       <!-- Bio -->
-      <section style="padding-block:3.5rem; border-bottom:1px solid var(--line);" class="reveal">
-        <p class="about-blurb">
-          Aspiring developer, chaotic thinker, lifelong learner, and tech enthusiast. Expert at procrastination, occasional overthinker.
-        </p>
-        <div style="margin-top:1.75rem; display:flex; flex-direction:column; gap:1rem; max-width:520px; color:var(--text-2); font-size:0.9375rem; line-height:1.75;">
-          <p>
-            I'm studying Computer Science in A Coruña. I enjoy building things for the web, and exploring the intersection of design and functionality.
-          </p>
-          <p>
-            I also volunteer at <strong>GPUL</strong>, a local open-source community, where I've contributed to many aspects of HackUDC, Spain´s second largest on-site student hackathon.
-          </p>
-          <p>
-            When I'm not writing code, I'm probably reading, pondering an orb, or thinking about something I should write code for.
-          </p>
+      <section style="padding-block:0 3rem; border-bottom:1px solid var(--line);" class="reveal">
+        <div class="about-intro">
+          <div>
+            <p class="about-blurb">
+              Aspiring developer, chaotic thinker, lifelong learner, and tech enthusiast. Expert at procrastination, occasional overthinker.
+            </p>
+            <div class="about-copy">
+              <p>
+                I'm studying Computer Science in A Coruña. I enjoy building things for the web, and exploring the intersection of design and functionality.
+              </p>
+              <p>
+                I also volunteer at <strong>GPUL</strong>, a local open-source community, where I've contributed to many aspects of HackUDC, Spain´s second largest on-site student hackathon.
+              </p>
+              <p>
+                When I'm not writing code, I'm probably reading, pondering an orb, or thinking about something I should write code for.
+              </p>
+            </div>
+          </div>
+
         </div>
       </section>
 
