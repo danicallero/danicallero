@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="About — danicallero"
+  description="About Daniel Callero"
+>
+  <Header />
+
+  <main style="padding-top:6rem;">
+    <div class="container">
+
+      <!-- Page header -->
+      <header style="padding-block:4rem 4rem; border-bottom:1px solid var(--line);">
+        <p class="label">About</p>
+        <h1 class="page-title">Daniel Callero</h1>
+        <p style="margin-top:0.625rem; font-size:0.875rem; color:var(--text-2);">
+          CS student · A Coruña, Spain
+        </p>
+      </header>
+
+      <!-- Bio -->
+      <section style="padding-block:3.5rem; border-bottom:1px solid var(--line);" class="reveal">
+        <p class="about-blurb">
+          Aspiring developer, chaotic thinker, lifelong learner, and tech enthusiast. Expert at procrastination, occasional overthinker.
+        </p>
+        <div style="margin-top:1.75rem; display:flex; flex-direction:column; gap:1rem; max-width:520px; color:var(--text-2); font-size:0.9375rem; line-height:1.75;">
+          <p>
+            I'm studying Computer Science in A Coruña. I enjoy building things for the web, and exploring the intersection of design and functionality.
+          </p>
+          <p>
+            I also volunteer at <strong>GPUL</strong>, a local open-source community, where I've contributed to many aspects of HackUDC, Spain´s second largest on-site student hackathon.
+          </p>
+          <p>
+            When I'm not writing code, I'm probably reading, pondering an orb, or thinking about something I should write code for.
+          </p>
+        </div>
+      </section>
+
+      <!-- Interests -->
+      <section style="padding-block:3rem; border-bottom:1px solid var(--line);" class="reveal">
+        <p class="label" style="margin-bottom:1.75rem;">Interests</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:0.625rem;">
+          {[
+            'Web development',
+            'Typography & design',
+            'Open source',
+
+          ].map((item) => (
+            <div style="font-size:0.875rem; color:var(--text-2); display:flex; align-items:center; gap:0.75rem;">
+              <span style="color:var(--text-3); font-size:0.625rem;">—</span>
+              {item}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Links -->
+      <section style="padding-block:3rem;" class="reveal">
+        <p class="label" style="margin-bottom:1.75rem;">Find me</p>
+        <div>
+          {[
+            { label: 'GitHub',        href: 'https://github.com/danicostales',  ext: true  },
+            { label: 'Links & socials', href: 'https://links.danicallero.es', ext: true  },
+            { label: 'Email',          href: 'mailto:contact@danicallero.es',       ext: false },
+          ].map(({ label, href, ext }) => (
+            <a
+              href={href}
+              target={ext ? '_blank' : undefined}
+              rel={ext ? 'noopener noreferrer' : undefined}
+              style="display:flex; align-items:center; justify-content:space-between; padding-block:1rem; border-bottom:1px solid var(--line); color:var(--text-2); font-size:0.875rem; transition:color 0.15s;"
+              onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-2)'"
+            >
+              <span>{label}</span>
+              <span style="font-size:0.75rem; color:var(--text-3);">↗</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
