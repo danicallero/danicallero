@@ -32,7 +32,7 @@ export const projects: Project[] = [
     description:
       'Automates creation of Apple Wallet passes for events — generates personalised QR codes and cryptographically signed .pkpass files from JSON data.',
     tags: ['Python', 'PassKit'],
-    github: 'https://github.com/danicostales/pkpassBuilder',
+    github: 'https://github.com/danicallero/pkpassBuilder',
     year: 2026,
     featured: true,
   },
