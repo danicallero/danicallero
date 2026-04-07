@@ -1,0 +1,204 @@
+---
+const path  = Astro.url.pathname;
+
+const links = [
+  { href: '/projects', label: 'Projects' },
+  { href: '/about',    label: 'About'    },
+  { href: '/blog',     label: 'Blog'     },
+];
+
+function isActive(href: string) {
+  return path === href || (href !== '/' && path.startsWith(href));
+}
+---
+
+<header id="site-header" class="site-header" role="banner">
+  <div class="site-header-inner">
+
+    <!-- Logo -->
+    <a href="/" class="header-logo" aria-label="Home">
+      danicallero.es
+    </a>
+
+    <!-- Nav -->
+    <nav aria-label="Primary navigation">
+      <ul class="header-nav">
+        {links.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              class:list={['header-link', { 'is-active': isActive(href) }]}
+              aria-current={isActive(href) ? 'page' : undefined}
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+
+        <li>
+          <a
+            href="https://github.com/danicostales"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="header-link header-link--ext"
+            aria-label="GitHub (opens in new tab)"
+          >GitHub&nbsp;↗</a>
+        </li>
+
+        <li>
+          <button id="theme-btn" class="theme-btn" aria-label="Toggle dark / light mode" type="button">
+            <!-- Sun — shown in dark mode -->
+            <svg id="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1"  x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22"  x2="5.64"  y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1"  y1="12" x2="3"  y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36"/>
+              <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
+            </svg>
+            <!-- Moon — shown in light mode -->
+            <svg id="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+  </div>
+</header>
+
+<script>
+  let _ctrl: AbortController | null = null;
+
+  function init() {
+    _ctrl?.abort();
+    _ctrl = new AbortController();
+    const { signal } = _ctrl;
+
+    // ── Frosted-glass on scroll ──────────────────────────────
+    const header = document.getElementById('site-header');
+    if (header) {
+      const tick = () => header.classList.toggle('scrolled', window.scrollY > 8);
+      window.addEventListener('scroll', tick, { passive: true, signal });
+      tick();
+    }
+
+    // ── Theme toggle ─────────────────────────────────────────
+    const btn  = document.getElementById('theme-btn') as HTMLButtonElement | null;
+    const sun  = document.getElementById('icon-sun')  as SVGElement | null;
+    const moon = document.getElementById('icon-moon') as SVGElement | null;
+
+    if (btn && sun && moon) {
+      const isDark = () => document.documentElement.classList.contains('dark');
+
+      const sync = () => {
+        sun.style.display  = isDark() ? ''       : 'none';
+        moon.style.display = isDark() ? 'none'   : '';
+      };
+      sync();
+
+      btn.addEventListener('click', () => {
+        const nowDark = isDark();
+        document.documentElement.classList.toggle('dark', !nowDark);
+        localStorage.setItem('theme', nowDark ? 'light' : 'dark');
+        sync();
+      }, { signal });
+    }
+  }
+
+  init();
+  document.addEventListener('astro:after-swap', init);
+</script>
+
+<style>
+  /* ── Header shell ───────────────────────────────────────── */
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 100;
+    height: 68px;
+  }
+
+  .site-header.scrolled {
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .site-header-inner {
+    height: 100%;
+    max-width: 900px;
+    margin-inline: auto;
+    padding-inline: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  /* ── Logo ───────────────────────────────────────────────── */
+  .header-logo {
+    font-family: 'Baskerville Old Face', serif;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  .header-logo:hover { opacity: 0.5; }
+
+  /* ── Nav list ───────────────────────────────────────────── */
+  .header-nav {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+  }
+
+  /* ── Nav links ──────────────────────────────────────────── */
+  .header-link {
+    display: block;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.9375rem;
+    border-radius: 4px;
+    color: var(--text);
+    opacity: 0.45;
+    transition: opacity 0.15s, background 0.15s;
+    white-space: nowrap;
+  }
+  .header-link:hover   { opacity: 0.9; background: color-mix(in srgb, var(--text) 6%, transparent); }
+  .header-link.is-active { opacity: 1; background: color-mix(in srgb, var(--text) 9%, transparent); }
+  .header-link--ext    { opacity: 0.35; }
+  .header-link--ext:hover { opacity: 0.8; }
+
+  /* ── Theme button ───────────────────────────────────────── */
+  .theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text);
+    opacity: 0.45;
+    cursor: pointer;
+    transition: opacity 0.15s, background 0.15s;
+  }
+  .theme-btn:hover { opacity: 0.9; background: color-mix(in srgb, var(--text) 6%, transparent); }
+
+  /* ── Mobile: hide GitHub label, keep icon spacing ───────── */
+  @media (max-width: 500px) {
+    .header-link--ext { display: none; }
+    .site-header-inner { padding-inline: 1.25rem; }
+  }
+</style>
