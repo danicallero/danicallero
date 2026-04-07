@@ -1,6 +1,7 @@
-# Node/Vite
+# Dependencies / build output
 node_modules/
 dist/
+.astro/
 
 # macOS
 .DS_Store
