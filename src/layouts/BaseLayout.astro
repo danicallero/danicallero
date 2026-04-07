@@ -1,0 +1,136 @@
+---
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: string;
+  publishedTime?: string;
+  articleTags?: string[];
+}
+
+const {
+  title,
+  description = 'Personal site of Daniel (Dani) Callero — CS student and aspiring developer from A Coruña, Spain.',
+  ogImage = 'https://www.danicallero.es/og-image.png?v=1',
+  ogType = 'website',
+  publishedTime,
+  articleTags = [],
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="canonical" href={canonical} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0c0c0b" />
+
+    <meta property="og:type"             content={ogType} />
+    <meta property="og:title"            content={title} />
+    <meta property="og:description"      content={description} />
+    <meta property="og:url"              content={canonical} />
+    <meta property="og:site_name"        content="danicallero" />
+    <meta property="og:image"            content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:alt"        content={title} />
+    <meta property="og:image:width"      content="1200" />
+    <meta property="og:image:height"     content="630" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {articleTags.map((tag) => <meta property="article:tag" content={tag} />)}
+    <meta name="twitter:card"            content="summary_large_image" />
+    <meta name="twitter:creator"         content="@danicostales" />
+    <meta name="twitter:title"           content={title} />
+    <meta name="twitter:description"     content={description} />
+    <meta name="twitter:image"           content={ogImage} />
+
+    <slot name="head" />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Daniel Callero',
+      alternateName: ['Dani Callero', 'danicallero'],
+      url: 'https://www.danicallero.es',
+      sameAs: ['https://github.com/danicallero'],
+    })} />
+
+    <!--
+      THEME — runs before first paint AND is copied to every incoming
+      document via astro:before-swap so it never flashes on navigation.
+    -->
+    <script is:inline>
+      (function () {
+        var stored = localStorage.getItem('theme');
+        var dark   = stored ? stored === 'dark'
+                            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', dark);
+      })();
+    </script>
+
+    <ViewTransitions />
+  </head>
+
+  <body>
+    <slot />
+
+    <!--
+      1. astro:before-swap — copy the current theme class to the incoming
+         document BEFORE the swap so there is zero flash.
+      2. Scroll-reveal — safe: elements are visible by default in CSS;
+         JS marks them invisible only when IntersectionObserver is ready.
+    -->
+    <script>
+      // ── Theme persistence across View Transitions ────────────
+      document.addEventListener('astro:before-swap', (e: any) => {
+        const dark = document.documentElement.classList.contains('dark');
+        e.newDocument.documentElement.classList.toggle('dark', dark);
+      });
+
+      // ── Scroll reveal ────────────────────────────────────────
+      function initReveal() {
+        if (!('IntersectionObserver' in window)) return;
+
+        const els = Array.from(document.querySelectorAll<HTMLElement>('.reveal'))
+          .filter(el => !el.classList.contains('_observed'));
+
+        if (!els.length) return;
+
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const el = entry.target as HTMLElement;
+              el.style.opacity    = '1';
+              el.style.transform  = 'none';
+              el.classList.add('_observed');
+              io.unobserve(el);
+            }
+          }),
+          { threshold: 0.05, rootMargin: '0px 0px -24px 0px' }
+        );
+
+        els.forEach(el => {
+          el.classList.add('_observed');
+          // Set invisible via JS — stays visible in CSS if JS never runs
+          el.style.opacity    = '0';
+          el.style.transform  = 'translateY(14px)';
+          el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+          io.observe(el);
+        });
+      }
+
+      initReveal();
+      document.addEventListener('astro:after-swap', initReveal);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  date: Date;
+  tags?: string[];
+}
+const { title, description, date, tags = [] } = Astro.props;
+
+const formatted = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const iso = date.toISOString();
+---
+
+<BaseLayout
+  title={`${title} — danicallero`}
+  description={description}
+  ogType="article"
+  publishedTime={iso}
+  articleTags={tags}
+>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: title,
+    description: description,
+    datePublished: iso,
+    author: {
+      '@type': 'Person',
+      name: 'Daniel Callero',
+      url: 'https://www.danicallero.es',
+    },
+    url: `https://www.danicallero.es/blog/${Astro.url.pathname.split('/').filter(Boolean).pop()}`,
+    ...(tags.length > 0 && { keywords: tags.join(', ') }),
+  })} />
+
+  <Header />
+
+  <main style="padding-top:6rem;">
+    <div class="container">
+
+      <!-- Back -->
+      <div style="padding-block:2.5rem 0;">
+        <a
+          href="/blog"
+          style="font-size:0.8125rem; color:var(--text-3); letter-spacing:0.04em; transition:color 0.15s; display:inline-flex; align-items:center; gap:0.375rem;"
+          onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-3)'"
+        >
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3M7 4l-4 4 4 4"/></svg>
+          Blog
+        </a>
+      </div>
+
+      <!-- Header -->
+      <header style="padding-block:2.5rem 3rem; border-bottom:1px solid var(--line);">
+        <h1 class="page-title" style="font-size:clamp(1.75rem,5vw,2.5rem); max-width:600px; margin-bottom:1.25rem;">
+          {title}
+        </h1>
+        <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+          <time datetime={iso} style="font-size:0.8125rem; color:var(--text-3);">{formatted}</time>
+          {tags.length > 0 && (
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+              {tags.map((t) => <span class="tag">{t}</span>)}
+            </div>
+          )}
+        </div>
+      </header>
+
+      <!-- Content -->
+      <article class="prose reveal" style="padding-block:3rem 2rem;">
+        <slot />
+      </article>
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
