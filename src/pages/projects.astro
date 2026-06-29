@@ -26,9 +26,7 @@ import { projects } from '../data/projects';
       <div class="work-list reveal">
         {projects.map((p, i) => (
           <a
-            href={p.url ?? p.github ?? '#'}
-            target={p.url ?? p.github ? '_blank' : undefined}
-            rel="noopener noreferrer"
+            href={`/projects/${p.slug}`}
             class="work-item"
           >
             <span class="work-num">{String(i + 1).padStart(2, '0')}</span>
@@ -43,7 +41,7 @@ import { projects } from '../data/projects';
             <div class="work-meta">
               <span class="work-tags">{p.tags.join(' · ')}</span>
               <span class="work-year">{p.year}</span>
-              <span class="work-arrow">↗</span>
+              <span class="work-arrow">→</span>
             </div>
           </a>
         ))}
