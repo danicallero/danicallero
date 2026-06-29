@@ -41,6 +41,7 @@ export const projects: Project[] = [
     description:
       'React Native app for HackUDC´s event operations.',
     tags: ['React Native', 'TypeScript'],
+    github: 'https://github.com/danicallero/hackudc_front',
     year: 2026,
     featured: true,
   }
