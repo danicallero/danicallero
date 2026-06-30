@@ -113,7 +113,7 @@ export const projects: Project[] = [
     description:
       'React Native app for HackUDC staff. Check-ins, food passes and attendance tracking, all from a phone on the event floor.',
     longDescription:
-      'Internal tool for the HackUDC 2026 organiser team. While participants used FastTrack for the judging queue, staff needed something for the rest of the event: checking people in at the door, managing meal passes, tracking attendance. This is a React Native/Expo app connected to the event backend. It ran on staff phones throughout the event.',
+      'Internal tool for the HackUDC 2026 organizer team. Staff needed something for the operational side of the event: checking people in at the door, managing meal passes, tracking attendance. This is a React Native/Expo app connected to the event backend. It ran on staff phones throughout the event.',
     highlights: [
       'Attendee check-in at the door',
       'Meal pass management during lunch and dinner',
@@ -125,6 +125,7 @@ export const projects: Project[] = [
     tags: ['React Native', 'Expo', 'TypeScript'],
     github: 'https://github.com/danicallero/hackudc_front',
     gallery: [
+      { type: 'image', src: '/projects/hackudc-app/media/statistics.jpeg', caption: 'Event statistics' },
       { type: 'video', src: '/projects/hackudc-app/media/temp-video-demo.mov' },
       { type: 'image', src: '/projects/hackudc-app/media/scanner.PNG', caption: 'QR scanner' },
       { type: 'image', src: '/projects/hackudc-app/media/people-list-view.PNG', caption: 'Participants list' },
@@ -132,7 +133,6 @@ export const projects: Project[] = [
       { type: 'image', src: '/projects/hackudc-app/media/presence-view.PNG', caption: 'Presence tracking' },
       { type: 'image', src: '/projects/hackudc-app/media/meal-pass-stats.PNG', caption: 'Meal pass stats' },
       { type: 'image', src: '/projects/hackudc-app/media/mealpass-repeated-redeem.PNG', caption: 'Repeated redeem prevention' },
-      { type: 'image', src: '/projects/hackudc-app/media/statistics.PNG', caption: 'Event statistics' },
     ],
     year: 2026,
     featured: true,
