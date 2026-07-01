@@ -143,6 +143,6 @@ export const projects: Project[] = [
       { type: 'image', src: '/projects/hackudc-2026/media/gallery-component.png', caption: 'Gallery component' },
     ],
     year: 2026,
-    featured: true,
+    featured: false,
   },
 ];
