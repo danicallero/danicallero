@@ -1,42 +1,63 @@
 ---
-title: "Organizing HackUDC 2026"
-description: "What I learned building for Galicia's largest hackathon."
+title: "Organizing HackUDC 2026. Six months of madness."
+description: "Six months building the tools behind HackUDC 2026, galicia's largest hackathon, and what actually stayed with me."
 date: 2026-04-07
 tags: ["hackathon", "event-organizing"]
 gallery:
   - type: image
     src: /blog/behind-the-scenes-hackudc-2026/media/hackudc-682.jpg
-    caption: HackUDC 2026
+    caption: HackUDC 2026 Group photo
+  - type: image
+    src: /blog/behind-the-scenes-hackudc-2026/media/organizers.jpg
+    caption: HackUDC 2026 Organizers
+  - type: image
+    src: /blog/behind-the-scenes-hackudc-2026/media/crowd.jpg
+    caption: HackUDC 2026 Crowd
+  - type: image
+    src: /blog/behind-the-scenes-hackudc-2026/media/grading.jpg
+    caption: Mentors and some Staff grading projects
+  - type: image
+    src: /blog/behind-the-scenes-hackudc-2026/media/mid-judging.jpg
+    caption: At the verge of crashing out, checking if FastTrack was still up and running
 ---
 
-A year ago, I participated in HackUDC and learnt quite a bit. This year felt different. I decided to step behind the curtain and see how things actually get built.
+A year ago I was on the other side of this event. I came to the third edition of HackUDC as a participant, and learned a ton. This year I jumped the fence and helped organize the whole thing, the biggest hackathon in Galicia (and second on-site student hackathon in Spain!), seen from the inside.
 
-Organizing an event for 500 people teaches you humility. You wear many hats — support, logistics, design, and despite the irony, you end up coding more than you do as a regular participant.
+Here's the first thing nobody tells you: when you help run an event for around 500 people, you end up wearing every hat there is. Support, logistics, design, whatever the day throws at you. And the irony is that I wrote far more code as an organizer than I would as a hacker.
 
-## What I built
+## The work
 
-In the last few months, I worked on:
+Over the last six months I had my hands in a bit of everything:
 
-- Contributing to the [official event website](https://hackudc.gpul.org)
-- Building an operations app in React Native to manage logistics during the event
-- Filing the paperwork to establish GPUL's Apple Developer account (which, surprisingly, required weeks of back-and-forth with various institutions)
+- I contributed to the [official event website](/projects/hackudc-2026).
+- I built the [operations app](/projects/hackudc-app) in React Native that staff used to run check-ins, meal passes and attendance from their phones, right there on the event floor.
+- Getting that app onto people's iPhones meant setting up GPUL's Apple Developer account from scratch, which turned into weeks of back-and-forth with Apple and INFORMA before our non-profit status was finally recognized.
+- I wrote [pkpassBuilder](/projects/pkpassbuilder) to generate the signed Apple Wallet passes we handed out as accreditations.
 
-The project thatm quite frankly, almost made me wanna quit was FastTrack — a system to manage evaluations for 120 projects across 12 rooms, all happening at once. I built it in three nights. By all architectural standards, it's rough code. But it worked. It handled 500 concurrent users without crashing, and that mattered more than anything.
+But the one that nearly made me quit, and the one I'm proudest of, was [FastTrack](/projects/fasttrack).
 
-## What actually matters
+## Three nights
 
-The part that stayed with me wasn't the code. It was the people.
+Every hackathon has the same Sunday problem. A hundred-plus teams all need to present to the judges, nobody knows when their turn is, and you spend hours in limbo waiting to be called. Anyone who has been to a hackathon knows exactly how chaotic that gets.
 
-When I tell people outside this circle about the late nights and the sheer volume of work I took on, some tell me I’m crazy. They look at the effort and the "price tag"—or lack thereof—and insist I shouldn't have done all of this for free.
+So during the event, I locked myself away and started building FastTrack: a queue and evaluation system to coordinate 120 projects across 12 rooms, all running at once.
 
-Honestly? They just don’t get it.
+I'll be the first to admit it's trench code. It would not survive an architecture review. But there is a very particular kind of adrenaline in knowing the last commit landed after a full night without sleep, thirty minutes before I generated Sunday's presentation queue, and that the thing held steady under more than 500 concurrent users without falling over.
 
-They don't see the sense of achievement that comes from watching a system you built hold steady under pressure, or the deep sense of community found in a room full of tired, motivated people. You can’t put a price on the passion we had for this project.
+Seeing a bit of order in the middle of that much chaos made every lost hour of sleep worth it.
 
-Working alongside people who spent countless hours packing welcome kits, arranging catering plans, or solving logistical problems they didn't have to solve was one of the most rewarding experiences of my entire life.
+## What actually stays with you
 
-I'm grateful I got to be part of this. The event happened. It was well-received. And I got to meet so many incredible people along the way.
+Standing in a packed auditorium, hearing the feedback from participants and from the authorities we brought in, is when the scale of it finally lands. HackUDC started as the madness of a small group of people, with not even 100 participants, and it is now 4 years later a reference point for the whole region, with almost 450 hackers. Between participants, staff, and sponsor reps, we've filled the university's auditorium to capacity, let that sink in.
 
-If you want a glimpse of the event, you can check out the [official photo gallery](https://cloud.gpul.org/s/XyfQ2eGzLiJfRx4).
+That's why the code was never the point. The people were.
+
+I got to spend six months with a team of beautiful lunatics, and I genuinely don't have a better word for them. Watching people pour themselves into assembling 500 welcome packs, or putting out logistical fires at three in the morning, is when it stops feeling like a team and starts feeling like a family.
+
+I'm humbled, and extremely grateful to have had the opportunity to organize this, and to spend all those months with a team of such talented individuals. I learnt more about tech, logistics, org, deployments, legal, economics... in these months than I did in my first two years of CS studies.
+
+When I tell people outside this world about the ridiculous amount of hours, and about the fact that none of it was paid, some of them think I've lost it. They can't see why anyone would do this for free. Honestly, I just think they're just missing the point, because you can't put a price on what we actually got out of it.
+
+Thank you for letting me be part of the madness. If you want a glimpse of the weekend, there's an [official photo gallery](https://cloud.gpul.org/s/XyfQ2eGzLiJfRx4).
 
 I can't wait to see what we build next year.
