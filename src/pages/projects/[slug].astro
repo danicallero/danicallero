@@ -68,9 +68,15 @@ const { project: p } = Astro.props;
       <!-- Description -->
       <section style="padding-block:3rem; border-bottom:1px solid var(--line); max-width:640px;">
         <p class="label" style="margin-bottom:1.25rem;">About this project</p>
-        <p style="font-size:0.9375rem; color:var(--text-2); line-height:1.8;">
-          {p.longDescription}
-        </p>
+        <div style="display:flex; flex-direction:column; gap:1.1rem;">
+          {p.longDescription
+            .split(/\n{2,}/)
+            .map((para) => para.trim())
+            .filter(Boolean)
+            .map((para) => (
+              <p style="font-size:0.9375rem; color:var(--text-2); line-height:1.8;">{para}</p>
+            ))}
+        </div>
       </section>
 
       <!-- Highlights -->
