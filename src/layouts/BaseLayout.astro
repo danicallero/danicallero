@@ -137,6 +137,21 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
         e.newDocument.documentElement.classList.toggle('dark', dark);
       });
 
+      // ── Back-navigation origin tracking ──────────────────────
+      // Record the page each in-site navigation starts from, tagged with its
+      // destination. Pages read this to know where the visitor came from —
+      // document.referrer is unreliable under View Transitions (it stays
+      // frozen on the initial hard load and never updates on client-side
+      // navigations), which is why a referrer-only back link goes stale.
+      document.addEventListener('astro:before-preparation', (e: any) => {
+        try {
+          sessionStorage.setItem('backNav', JSON.stringify({
+            from: location.pathname + location.search,
+            to: e?.to?.pathname ?? '',
+          }));
+        } catch {}
+      });
+
       // ── Scroll reveal ────────────────────────────────────────
       function initReveal() {
         if (!('IntersectionObserver' in window)) return;

@@ -5,9 +5,42 @@ import Footer from '../components/Footer.astro';
 import { projects } from '../data/projects';
 import { getCollection } from 'astro:content';
 
+function normalizeSrc(src: string) {
+  try {
+    // Avoid double-encoding paths that are already percent-encoded.
+    return encodeURI(decodeURI(src));
+  } catch {
+    return src;
+  }
+}
+
+function extractPostImages(body: string) {
+  const matches = [...body.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)];
+  return matches
+    .map((match) => match[1].trim().replace(/^<|>$/g, ''))
+    .map((src) => src.replace(/\s+"[^"]*"$/, ''))
+    .filter(Boolean)
+    .map(normalizeSrc);
+}
+
+// Prefer the post's gallery images (first gallery pic leads); fall back to
+// images embedded in the markdown body.
+function galleryImages(gallery: { type: string; src: string }[] | undefined) {
+  return (gallery ?? [])
+    .filter((item) => item.type === 'image')
+    .map((item) => normalizeSrc(item.src));
+}
+
 const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+  .slice(0, 3)
+  .map((post) => {
+    const fromGallery = galleryImages(post.data.gallery);
+    return {
+      ...post,
+      previewImages: fromGallery.length > 0 ? fromGallery : extractPostImages(post.body),
+    };
+  });
 
 const featured = projects.filter((p) => p.featured).slice(0, 4);
 ---
@@ -94,10 +127,22 @@ const featured = projects.filter((p) => p.featured).slice(0, 4);
           <div class="post-list reveal">
             {allPosts.map((post) => (
               <a href={`/blog/${post.slug}`} class="post-item">
-                <span class="post-title">{post.data.title}</span>
-                <span class="post-date">
-                  {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                <span class="post-item-main">
+                  <span class="post-title">{post.data.title}</span>
+                  <span class="post-date">
+                    {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  </span>
                 </span>
+                {post.previewImages.length > 0 && (
+                  <span
+                    class="post-preview"
+                    data-post-preview
+                    data-images={JSON.stringify(post.previewImages)}
+                    aria-hidden="true"
+                  >
+                    <img src={post.previewImages[0]} alt="" loading="lazy" decoding="async" />
+                  </span>
+                )}
               </a>
             ))}
           </div>
@@ -126,4 +171,34 @@ const featured = projects.filter((p) => p.featured).slice(0, 4);
   </main>
 
   <Footer />
+
+  <script is:inline>
+    (() => {
+      const windows = Array.from(document.querySelectorAll('[data-post-preview]'));
+      if (!windows.length) return;
+
+      const applyOrientation = (windowEl, imgEl) => {
+        if (!imgEl.naturalWidth || !imgEl.naturalHeight) return;
+        const isLandscape = imgEl.naturalWidth > imgEl.naturalHeight;
+        windowEl.classList.toggle('is-landscape', isLandscape);
+      };
+
+      windows.forEach((windowEl) => {
+        const images = JSON.parse(windowEl.getAttribute('data-images') || '[]');
+        const img = windowEl.querySelector('img');
+        if (!img) return;
+
+        img.addEventListener('load', () => applyOrientation(windowEl, img));
+        if (img.complete) applyOrientation(windowEl, img);
+
+        if (images.length < 2) return;
+
+        let index = 0;
+        window.setInterval(() => {
+          index = (index + 1) % images.length;
+          img.src = images[index];
+        }, 3200);
+      });
+    })();
+  </script>
 </BaseLayout>
