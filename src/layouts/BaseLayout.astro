@@ -46,6 +46,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <meta property="og:image:alt"        content={title} />
     <meta property="og:image:width"      content="1200" />
     <meta property="og:image:height"     content="630" />
+    <meta property="og:locale"           content="en_US" />
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {articleTags.map((tag) => <meta property="article:tag" content={tag} />)}
     <meta name="twitter:card"            content="summary_large_image" />
@@ -61,18 +62,39 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Person',
+      '@id': 'https://www.danicallero.es/#person',
       name: 'Daniel Callero',
       alternateName: [
         'Dani Callero',
-        'Daniel Callero',
-        'danicallero',
-        'danicostales',
-        'danielcallero',
-        'danielcostales',
-        'Daniel Costales',
         'Daniel Callero Costales',
+        'Dani Callero Costales',
+        'danicallero',
       ],
+      givenName: 'Daniel',
+      familyName: 'Callero Costales',
       url: 'https://www.danicallero.es',
+      image: 'https://www.danicallero.es/AVATAR.jpg',
+      jobTitle: 'Computer Science Student',
+      description: 'Developer and Computer Science student from A Coruña, Spain.',
+      alumniOf: {
+        '@type': 'CollegeOrUniversity',
+        name: 'Universidade da Coruña',
+      },
+      homeLocation: {
+        '@type': 'Place',
+        name: 'A Coruña, Spain',
+      },
+      knowsAbout: [
+        'Web Development',
+        'Mobile Development',
+        'React Native',
+        'iOS Development',
+        'Full-Stack Development',
+        'Open Source',
+        'Graphic Design',
+        'UI/UX Design',
+        'Event Organization',
+      ],
       sameAs: [
         'https://github.com/danicallero',
         'https://links.danicallero.es',
